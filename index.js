@@ -1,23 +1,23 @@
 const main = document.querySelector("#main")
-const show = document.querySelector(".show")
+const telaPreta = document.querySelector(".tela-preta")
 
-show.addEventListener("click",()=> show.style.display = "none")
+telaPreta.addEventListener("click",()=> telaPreta.style.display = "none")
 
-async function requestApi() {
+async function requisicaoApi() {
     try {
-        const require = await fetch("https://reqres.in/api/users?page=2");
-        const response = await require.json()
-        return response.data;
+        const consumindoApi = await fetch("https://reqres.in/api/users?page=2");
+        const respostaApi = await consumindoApi.json()
+        return respostaApi.data;
         
     } catch (error) {
         return error
     }
-}
+};
 
-async function generateImage() {
-    const urlImage = await requestApi();
+async function gerar() {
+    const users = await requisicaoApi();
     
-    const generate = await urlImage.map(( { avatar, first_name, last_name,email})=> {
+    const gerarCard = await users.map(( { avatar, first_name, last_name,email})=> {
         const card = document.createElement("div")
 
         card.style.display = "flex";
@@ -39,13 +39,13 @@ async function generateImage() {
         image.style.height= "150px";
         image.style.objectFit = "cover";
         image.style.marginTop = "10px";
-        const paragraph = document.createElement("p")
+        const paragrafo = document.createElement("p")
 
-        image.src = `${avatar}`
-        paragraph.innerText = `${first_name} `
+        image.src = avatar;
+        paragrafo.innerText = first_name;
 
         card.appendChild(image)
-        card.appendChild(paragraph)
+        card.appendChild(paragrafo)
         main.appendChild(card)
         
         card.addEventListener('click', function(){
@@ -67,29 +67,30 @@ async function generateImage() {
             image.style.objectFit = "cover";
             image.style.marginTop = "10px";
 
-            const paragraph = document.createElement("p")
+            const paragrafo = document.createElement("p")
             const textEmail = document.createElement("p")
 
-            image.src = `${avatar}`
-            textEmail.innerText = `${email}`
-            paragraph.innerText = `${first_name} ${last_name}`
-            show.style.position = "absolute";
-            show.style.backgroundColor = "rgba(12, 12, 12, 0.61)";
-            show.style.width = "100%";
-            show.style.height = "100vh";
-            show.style.display = "flex";
-            show.style.justifyContent = "space-around";
-            show.style.flexWrap = "wrap";
+            image.src = avatar;
+            textEmail.innerText = email;
+            paragrafo.innerText = `${first_name} ${last_name}`;
+            telaPreta.style.position = "absolute";
+            telaPreta.style.backgroundColor = "rgba(12, 12, 12, 0.61)";
+            telaPreta.style.width = "100%";
+            telaPreta.style.height = "100vh";
+            telaPreta.style.display = "flex";
+            telaPreta.style.justifyContent = "space-around";
+            telaPreta.style.flexWrap = "wrap";
 
             card.appendChild(image)
-            card.appendChild(paragraph)
+            card.appendChild(paragrafo)
             card.appendChild(textEmail) 
-            show.appendChild(card)
+            telaPreta.appendChild(card)
         });
     })
-    generate()
+    
+    gerarCard()
     
     
 }
 
-generateImage()
+gerar()
